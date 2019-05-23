@@ -6,6 +6,7 @@ contract mappingTest{
     
     function add(address _key, bytes32 _value) public {
         map[_key] = _value;
+        keylist.push(_key);
     }
     
     function del(address _key) public {
