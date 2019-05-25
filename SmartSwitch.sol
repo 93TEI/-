@@ -7,7 +7,7 @@ contract SmartSwitch{
     struct Switch{
         address addr;
         uint endTime; // 이용 종료 시각 (Unix Time)
-        bool state; //true면 이용 가능
+        bool status; //true면 이용 가능
     }
     
     address public owner;   //서버 소유자 addr
@@ -30,5 +30,36 @@ contract SmartSwitch{
         numPaid = 0;
     }
     
+    //이더를 지불할 때 호출되는 함수
+    function payToSwitch() public payable {
+        //1이더가 아니면 처리 종료
+        require(msg.value != 1000000000000000000);
+        
+        //Switch 생성 
+        Swtich s = switches[numPaid++];
+        s.addr = msg.sender;
+        s.endTime = now + 300;
+        s.status = true;
+    }
     
+    //스테이터스를 변경하는 함수
+    //이용 종료 시각에 호출되는
+    //인자는 switches의 키 값
+    function updateStatus(uint _index) public onlyIOT {
+        //인덱스 값에 해당하는 Switch 구조체가 없으면 종료
+        require(switches[_index].addr != 0);
+        
+        //이용 종료 시각이 되지 않았으면 종료
+        require(now > switches[_index].endTime);
+        
+        //스테이터스 변경
+        switches[_index].status = false;
+    }
+    
+    //지불된 이더를 인출하는 함수
+    function withdrowFunds() public payable onlyOwner{
+        if (!owner.send(this.balance))
+            throw;
+        
+    }
 }
