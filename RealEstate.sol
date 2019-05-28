@@ -25,6 +25,7 @@ contract RealEstate{
     mapping (uint => Property) public propertyInfo;
     
     constructor() public {
+        owner = msg.sender; //temp
     }
     
     modifier onlyOwner {
@@ -41,7 +42,9 @@ contract RealEstate{
         require(_propertyId >= 0); //Check the property identity is equal or greater than zero
         require(msg.value == propertyPrice); //  Check whether a message sender has sent the same amount  of Ethereum as the real estate price
         require(propertyState); //Check whether the real estate property chosen by a message sender is sold out or not
-        
+        Buyer b = {};
+        buyerInfo[] = b;
+    }
     
     function getRealEstate(uint _propertyID) public view returns (string memory, string memory,
     string memory, uint, uint)
