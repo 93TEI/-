@@ -25,4 +25,20 @@ contract AuctionWithdraw {
         highestBid = msg.value;
         highestBidder = msg.sender;
     }
+    
+    function withdraw() public{
+        //반환액이 0보다 큰지 확인 
+        require(userBalances[msg.sender]) > 0);
+        
+        //반환액을 구함
+        uint refundAmount = userBalances[msg.sender];
+        
+        //반환액 업데이트 
+        userBalances[msg.sender] = 0;
+        
+        //입찰금 반환 처리 
+        if(!msg.sender.send(refundAmount)){
+            throw;
+        }
+    }
 }
