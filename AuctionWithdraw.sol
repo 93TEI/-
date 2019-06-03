@@ -13,4 +13,16 @@ contract AuctionWithdraw {
         highestBidder = msg.sender;
         highestBid = 0;
     }
+    
+    function bid() public payable {
+        //입찰액이 현재 최고 입찰액보다 큰지 확인
+        require(msg.value > highestBid);
+        
+        //최고 입찰자 어드레스에 대한 반환액 업데이트 
+        userBalances[highestBidder] += highestBid;
+        
+        //상태 업데이트
+        highestBid = msg.value;
+        highestBidder = msg.sender;
+    }
 }
