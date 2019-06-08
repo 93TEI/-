@@ -16,6 +16,23 @@ contract VictimBalance {
     
     //이더 인출하면 호출되는 함수
     function withdrawBalance() public payable returns(bool){
+        MessageLog("withdrawBalance started");
+        BalanceLog(this.balance);
         
+        if(userBalacnces[msg.sender] == 0){
+            MessageLog("No Balance.");
+            return false;
+        }
+        
+        if(!(msg.sender.call.value(userBalacnces[msg.sender])()))
+        {
+            throw;
+        }
+        
+        userBalances[msg.sender] = 0;
+        
+        MssageLog("withdrawBalance finished");
+        
+        return false;
     }
 }
