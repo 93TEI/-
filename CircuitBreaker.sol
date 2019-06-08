@@ -14,4 +14,19 @@ contract CircuitBreaker {
         require(!stopped);
         _;
     }
+    //생성자 
+    function CircuitBreaker() {
+        owner = msg.sender;
+        stopped = false;
+    }
+    
+    function toggleCircuit(bool _stopped) public onlyOwner {
+        stopped = _stopped;
+    }
+    
+    //msg값 변경
+    //서킷 브레이크 상태일 때만 수정 가능 
+    function setMessage(byte16 _message) public isStopped {
+        message = _message;
+    }
 }
