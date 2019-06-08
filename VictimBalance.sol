@@ -19,16 +19,18 @@ contract VictimBalance {
         MessageLog("withdrawBalance started");
         BalanceLog(this.balance);
         
+        // 잔액 확인 -> 출금 -> 잔액 업데이트 = 공격 당하는 구조
+        // 잔액확인 
         if(userBalacnces[msg.sender] == 0){
             MessageLog("No Balance.");
             return false;
         }
-        
+        //출금 
         if(!(msg.sender.call.value(userBalacnces[msg.sender])()))
         {
             throw;
         }
-        
+        // 잔액 업데이트
         userBalances[msg.sender] = 0;
         
         MssageLog("withdrawBalance finished");
