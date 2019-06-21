@@ -24,4 +24,19 @@ contract MarketPlaceTOD{
         price = _price;
         UpdatePrice(price);
     }
+
+    //구매 처리
+    function buy(uint _price) public payable{
+        if(msg.value < _quantity * price || _quantity > stockQuantity) {
+            throw;
+        }
+
+        //거스름돈 송금
+        if(!msg.sender.send(msg.value - _quantity * price)){
+            throw; 
+        }
+
+        stockQuantity -= _quantity;
+        Buy(price, _quantity, msg.value, msg.value - _quantity * price);
+    }
 }
