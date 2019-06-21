@@ -9,6 +9,18 @@ contract TimestampDependence_Lottery{
     uint public timestamp;
 
     modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+
+    function TimestampDependence_Lottery() {
+        owner = msg.sender;
+        numApplicants = 0;
+    }
+
+    //추첨 응모 처리 함수
+    function enter() public {
+        //응모자가 3명 미만인지 확인
         
     }
 }
