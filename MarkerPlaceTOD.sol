@@ -4,7 +4,7 @@ contract MarketPlaceTOD{
     uint public price;  //단가
     uint public stockQuantity   //재고량
 
-    modifier onlyOwner {
+    modifier onlyOwner() {
         require(msg.sender == owner);
         _;
     }
